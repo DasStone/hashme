@@ -36,7 +36,7 @@ macro_rules! hash{
 
         let text = unsafe { std::slice::from_raw_parts($ptr, data.len) };
 
-        let result: [u8; 16] = hmac_sha256(text, []);
+        let result: [u8; 32] = hmac_sha256(text, []);
 
         println!("EXPECTED HASH: {:?}", data.hash);
         println!("ACTUAL HASH  : {:?}", result);
