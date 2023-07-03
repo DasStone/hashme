@@ -7,8 +7,8 @@ pub use hashme_internal::create_link_section;
 #[derive(Default, Clone, Copy)]
 #[repr(C)]
 pub struct HashData {
-    hash: [u8; 32],
-    len: usize,
+    pub hash: [u8; 32],
+    pub len: usize,
 }
 
 #[inline(always)]
