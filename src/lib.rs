@@ -35,6 +35,7 @@ pub fn sha256(data: &[u8]) -> [u8; 32] {
     hasher.finalize().into()
 }
 
+#[macro_export]
 macro_rules! hash{
     ($ptr:expr,$id:expr) => {
         let data = unsafe { HASHES.as_ptr().add($id).read_volatile() };
@@ -44,11 +45,14 @@ macro_rules! hash{
 
         let text = unsafe { std::slice::from_raw_parts($ptr, data.len) };
 
-        let result: [u8; 32] = hmac_sha256(text, []);
+        let result: [u8; 32] = sha256(text);
 
         println!("EXPECTED HASH: {:?}", data.hash);
         println!("ACTUAL HASH  : {:?}", result);
         println!("HASHES MATCH: {}", data.hash.eq(&result));
+        if !data.hash.eq(&result) {
+            panic!();
+        }
     };
 }
 
