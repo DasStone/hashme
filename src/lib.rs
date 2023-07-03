@@ -11,6 +11,7 @@ pub struct HashData {
     len: usize,
 }
 
+#[inline(always)]
 pub fn hmac_sha256(data: &[u8], extra: &[u8]) -> [u8; 32] {
     let okey = b"lNPlsx83lK6IWXEXMFV34pjbMATQKcHJ";
     let ikey = b"e862mA8Q9/Nt9ytEofLvmNJMNPWWhMTb";
@@ -24,6 +25,13 @@ pub fn hmac_sha256(data: &[u8], extra: &[u8]) -> [u8; 32] {
     hasher = Sha256::new();
     hasher.update(okey);
     hasher.update(inner);
+    hasher.finalize().into()
+}
+
+#[inline(always)]
+pub fn sha256(data: &[u8]) -> [u8; 32] {
+    let mut hasher = Sha256::new();
+    hasher.update(data);
     hasher.finalize().into()
 }
 
